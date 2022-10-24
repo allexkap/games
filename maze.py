@@ -1,5 +1,6 @@
 class Player:
 
+    offsets = ((1, -1), (0, -1), (1, 1), (0, 1))
     colors = {'b': '  ', 'w': '██', 'r': '\33[31m██\33[0m'}
 
     def __init__(self, n=4, m=4, slow=False):
@@ -80,20 +81,16 @@ class Player:
         return I
 
 
-    def move(self, key):
-        x, y = self.pos
-        if key == 'up' and not self.is_wall(x, y-1):
-            self.pos[1] -= 1
-        elif key == 'down' and not self.is_wall(x, y+1):
-            self.pos[1] += 1
-        elif key == 'left' and not self.is_wall(x-1, y):
-            self.pos[0] -= 1
-        elif key == 'right' and not self.is_wall(x+1, y):
-            self.pos[0] += 1
-        else:
+    def move(self, direction):
+        pos = self.pos.copy()
+        k, d = Player.offsets[direction]
+        pos[k] += d
+        if self.is_wall(*pos):
             return True
 
-        self.set_pixel(x, y, color='b')
-        self.set_pixel(*self.pos, color='r')
-        if self.use_lidar() < 2 or self.slow or self.move(key):
+        self.set_pixel(*self.pos, color='b')
+        self.set_pixel(*pos, color='r')
+        self.pos = pos
+
+        if self.use_lidar() < 2 or self.slow or self.move(direction):
             self.flush()
