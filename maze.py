@@ -6,6 +6,7 @@ class Player:
         self.n = n
         self.m = m
         self.pos = [1, 1]
+        self.wall_cache = [[False for _ in range(self.n*2+1)] for _ in range(self.m*2+1)]
 
         self.euler()
         self.clear()
@@ -68,8 +69,10 @@ class Player:
         for i in range(9):
             x = self.pos[0]+i%3-1
             y = self.pos[1]+i//3-1
-            if self.is_wall(x, y):    
-                self.set_pixel(x, y)
+            if self.is_wall(x, y):
+                if not self.wall_cache[y][x]:
+                    self.wall_cache[y][x] = True
+                    self.set_pixel(x, y)
                 I += i%2
         return I
 
