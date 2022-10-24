@@ -21,6 +21,6 @@ player = Player((x-10)//4, (y-5)//2, slow=1)
 
 try:
     Bot(player)
-except:
+except KeyboardInterrupt:
     print()
 
