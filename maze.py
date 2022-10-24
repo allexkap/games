@@ -54,7 +54,7 @@ class Player:
 
 
     def clear(self):
-        print('\33c\33[?25l', end='', flush=False)
+        print('\33c\33[?25l', end='')
 
 
     def set_pixel(self, x, y, color='w', save=False):
@@ -64,7 +64,7 @@ class Player:
                 x*2+1 + 2*2,
                 Player.colors[color] if color else '',
                 '\33[s' if save else ''
-            ), end='', flush=False
+            ), end=''
         )
 
 
@@ -97,4 +97,4 @@ class Player:
 
 
     def __del__(self):
-        print('\33[?25h', end='', flush=False)
+        print('\33[?25h', end='')
