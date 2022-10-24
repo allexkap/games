@@ -54,7 +54,7 @@ class Player:
 
 
     def clear(self):
-        print('\33c', end='', flush=False)
+        print('\33c\33[?25l', end='', flush=False)
 
 
     def set_pixel(self, x, y, color='w', save=False):
@@ -94,3 +94,7 @@ class Player:
 
         if self.use_lidar() < 2 or self.slow or self.move(direction):
             self.flush()
+
+
+    def __del__(self):
+        print('\33[?25h', end='', flush=False)
