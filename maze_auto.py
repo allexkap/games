@@ -23,4 +23,3 @@ try:
     Bot(player)
 except KeyboardInterrupt:
     print()
-
