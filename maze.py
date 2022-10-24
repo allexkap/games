@@ -1,6 +1,6 @@
 class Player:
 
-    colors = {'b': '  ', 'w': '██', 'r': '\33[1;31m██\33[0m'}
+    colors = {'b': '  ', 'w': '██', 'r': '\33[31m██\33[0m'}
 
     def __init__(self, n=4, m=4, slow=False):
         self.slow = slow
