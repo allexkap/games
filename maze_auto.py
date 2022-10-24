@@ -17,7 +17,7 @@ def Bot(player, delay=0.1):
         current = (current+ANGLES[failed])%4
 
 x, y = get_terminal_size()
-player = Player((x-10)//4, (y-5)//2, slow=1)
+player = Player((x-10)//4, (y-5)//2, slow=True)
 
 try:
     Bot(player)
