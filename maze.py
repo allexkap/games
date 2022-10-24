@@ -2,14 +2,16 @@ class Player:
 
     colors = {'b': '  ', 'w': '██', 'r': '\33[1;31m██\33[0m'}
 
-    def __init__(self, n=4, m=4):
+    def __init__(self, n=4, m=4, slow=False):
+        self.slow = slow
         self.n = n
         self.m = m
         self.pos = [1, 1]
         self.wall_cache = [[False for _ in range(self.n*2+1)] for _ in range(self.m*2+1)]
-
         self.euler()
+
         self.clear()
+        self.set_pixel(-2, 2*self.m+2, color='', save=True)
         self.use_lidar()
         self.set_pixel(*self.pos, color='r')
         self.flush()
@@ -29,7 +31,7 @@ class Player:
                     self.right[i][j] = True
                 else:
                     s = sides[j+1]
-                    for k in range(self.n):    
+                    for k in range(self.n):
                         if sides[k] == s:
                             sides[k] = sides[j]
             if last: break
@@ -46,20 +48,21 @@ class Player:
             (not x%2 or not y%2)
 
 
-    def flush(self):
-        print(end='', flush=True)
+    def flush(self, restore=True):
+        print('\33[u' if restore else '', end='', flush=True)
 
 
     def clear(self):
         print('\33c', end='', flush=False)
 
 
-    def set_pixel(self, x, y, color='w'):
+    def set_pixel(self, x, y, color='w', save=False):
         print(
-            '\33[{};{}H{}\33[u'.format(
+            '\33[{};{}H{}{}'.format(
                 y+1 + 2,
                 x*2+1 + 2*2,
-                Player.colors[color],
+                Player.colors[color] if color else '',
+                '\33[s' if save else ''
             ), end='', flush=False
         )
 
@@ -92,5 +95,5 @@ class Player:
 
         self.set_pixel(x, y, color='b')
         self.set_pixel(*self.pos, color='r')
-        if self.use_lidar() < 2 or self.move(key):
+        if self.use_lidar() < 2 or self.slow or self.move(key):
             self.flush()

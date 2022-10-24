@@ -17,9 +17,10 @@ def Bot(player, delay=0.1):
         current = (current+ANGLES[failed])%4
 
 x, y = get_terminal_size()
-player = Player((x-10)//4, (y-5)//2)
+player = Player((x-10)//4, (y-5)//2, slow=1)
 
 try:
-    Bot(player, 0.05)
+    Bot(player)
 except:
-    print(f'\33[{2*player.m+5};{0}H')
+    print()
+
